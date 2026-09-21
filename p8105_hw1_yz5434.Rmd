@@ -29,3 +29,35 @@ ggplot(data = penguins,
 ggsave("penguins_scatterplot.png")
 ```
 
+
+## Problem 2
+
+```{r}
+q2_df = 
+  tibble(
+    rand_samp = rnorm(10),
+    log_vec = rand_samp > 0,
+    char_vec = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+    fac_vec = factor(c("A", "B", "C", "A", "B", "C", "A", "B", "C", "A"))
+  )
+```
+
+```{r}
+mean(pull(q2_df, rand_samp))
+
+mean(pull(q2_df, log_vec))
+
+mean(pull(q2_df, char_vec))
+
+mean(pull(q2_df, fac_vec))
+```
+
+The mean works for the numeric and logical variables, but not for the character or factor variables.
+
+```{r, results='hide', warning=FALSE}
+as.numeric(pull(q2_df, log_vec))
+as.numeric(pull(q2_df, char_vec))
+as.numeric(pull(q2_df, fac_vec))
+```
+
+`as.numeric()` converts logical variable to 1s and 0s, where `TRUE` is 1 and `FALSE` is 0. The character variable is converted to `NA`. The factor variable is converted to 1, 2, and 3 respectively based on its underlying integer codes (A is 1, B is 2, and C is 3). This helps explain why `mean()` works for logical variables but not directly for character or factor variables.
